@@ -2,7 +2,7 @@
 
 Career-driven Cornell course discovery and scheduling, with a Python optimizer and expandable plan families.
 
-这是一个可运行的前后端 Web 应用。前端使用 HTML/CSS/JavaScript；FastAPI 同时提供网页和 Python API，只需部署一个服务。OpenAI 负责检索规划、课程语义评分和规则结构化，OR-Tools CP-SAT 负责检查并求解课表。
+This is a working full-stack web application. The frontend uses HTML, CSS, and JavaScript. FastAPI serves both the website and the Python API, so deployment requires only one service. OpenAI plans course searches, scores course relevance, and structures enrollment rules; OR-Tools CP-SAT checks constraints and generates feasible schedules.
 
 ## Run locally
 
