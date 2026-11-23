@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Course Compass · A semester with direction</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%231a5146'/%3E%3Cpath d='M27 12L23 24L12 28L16 16Z' fill='%23eee8d8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css"><script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/" aria-label="Course Compass home"><span class="logo">↗</span> Course Compass<span class="beta">LAB</span></a><div class="header-actions"><span class="school"><i></i> Cornell University</span><button class="button secondary small" id="demo-top">Explore a demo <span>↗</span></button></div></header>
+<main>
+  <section class="intro"><div><p class="eyebrow">A LITTLE LESS GUESSWORK. A LOT MORE DIRECTION.</p><h1>Your next semester,<br><em>with a direction.</em></h1><p class="lede">Turn your career goals and completed courses into a schedule<br class="desktop"> that fits. Compare directions. Find your version.</p></div><div class="intro-note"><span class="orbit">✳</span><p>Built around <strong>your goals.</strong><br>Grounded in real courses.<br>Checked by a Python optimizer.</p></div></section>
+  <div class="workspace">
+    <aside class="profile panel">
+      <div class="panel-heading"><h2>Your starting point</h2><span class="pill">01 / INPUT</span></div>
+      <form id="planner-form">
+        <label for="goal">Where do you want to go?</label>
+        <textarea id="goal" rows="4" minlength="10" maxlength="3000" required placeholder="e.g. I want to become a product analyst. I’m interested in data science, experimentation, and building useful digital products."></textarea>
+        <div class="row"><div><label for="roster">Semester</label><select id="roster"><option value="SP27">Spring 2027</option></select></div><div><label for="career">Academic level</label><select id="career"><option value="UG">Undergraduate</option><option value="GR">Graduate</option></select></div></div>
+        <div class="row three"><div><label for="min-credits">Min credits</label><input id="min-credits" type="number" min="1" max="24" step="0.5" value="12" required></div><div><label for="max-credits">Max credits</label><input id="max-credits" type="number" min="1" max="24" step="0.5" value="16" required></div><div><label for="course-count">Courses</label><input id="course-count" type="number" min="2" max="6" value="4" required></div></div>
+        <details class="input-section" open><summary><span><b>01</b> Courses you’ve taken</span><span class="chevron">＋</span></summary>
+          <p class="help">Upload a text-based PDF, TXT or CSV. Review extracted courses before planning. Your transcript text is sent to OpenAI.</p>
+          <label class="upload" for="transcript-file"><span>↥</span><strong>Upload transcript</strong><small>Text-based PDF, TXT, CSV · up to 5 MB</small></label><input id="transcript-file" type="file" accept=".pdf,.txt,.csv" hidden>
+          <div class="transcript-toolbar"><span id="course-total">0 completed courses</span><button id="add-course" class="text-button" type="button">+ Add manually</button></div>
+          <div id="transcript-rows"></div><p id="transcript-notes" class="help"></p>
+          <label class="check"><input id="reviewed" type="checkbox" checked><span>I’ve checked these course codes, grades and completion statuses.</span></label>
+        </details>
+        <details class="input-section"><summary><span><b>02</b> Make room for life</span><span class="chevron">＋</span></summary>
+          <div class="row"><div><label for="earliest">Classes after</label><input id="earliest" type="time" value="09:00" required></div><div><label for="latest">Classes end by</label><input id="latest" type="time" value="18:00" required></div></div>
+          <label for="campus">Campus</label><select id="campus"><option value="MAIN">Ithaca</option><option value="NYCT">Cornell Tech</option><option value="ANY">Any campus (travel not checked)</option></select>
+          <div class="transcript-toolbar"><span>Unavailable times</span><button id="add-block" class="text-button" type="button">+ Add time</button></div><div id="blocked-rows"></div>
+          <label for="required">Must-take courses</label><input id="required" placeholder="e.g. INFO 2950, CS 2110"><label for="subjects">Subject hints <span class="optional">optional</span></label><input id="subjects" placeholder="e.g. INFO, STSCI, ECON">
+          <label for="permissions">Verified permissions / restrictions</label><input id="permissions" placeholder="Course codes you have checked with the school"><p class="help">Only enter a course here after verifying its flagged restriction. This does not waive its prerequisites.</p>
+        </details>
+        <details class="input-section" id="api-section"><summary><span><b>03</b> Connect your OpenAI key</span><span class="chevron">＋</span></summary>
+          <label for="api-key">OpenAI API key</label><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…">
+          <label for="model">Model</label><select id="model"><option value="gpt-4.1-mini">GPT-4.1 mini</option><option value="gpt-4.1">GPT-4.1</option></select>
+          <p class="help">Kept in this page’s memory and used for your requests. Never saved to our database or browser storage. Planning can make dozens of API calls; OpenAI usage is billed to your key.</p>
+        </details>
+        <p id="form-error" class="error" role="alert" hidden></p>
+        <button class="button primary full" id="generate" type="submit">Find my course plans <span>→</span></button>
+        <button class="text-button full demo-link" id="demo-button" type="button">Try the offline demo · no key needed</button>
+        <p class="privacy-note">Same-school planning · No account needed<br>Transcript and key are not saved by this app.</p>
+      </form>
+    </aside>
+    <section class="results-column" aria-label="Course recommendations">
+      <div class="results-header"><div><p class="eyebrow">YOUR POSSIBILITIES</p><h2 id="results-title">A direction, then the details.</h2></div><span class="pill" id="run-state">READY WHEN YOU ARE</span></div>
+      <div id="demo-banner" class="notice" hidden><strong>Real courses. Sample intelligence.</strong> This demo uses a saved Cornell Spring 2027 roster and a fixed data-analytics scoring profile. The Python solver runs for real; there are no LLM calls.</div>
+      <section id="empty-state" class="empty-state panel"><div class="compass-art" aria-hidden="true"><div class="ring outer"></div><div class="ring inner"></div><span class="north">N</span><div class="needle"></div><span class="art-tag one">YOUR GOALS</span><span class="art-tag two">REAL COURSES</span><span class="art-tag three">A PLAN THAT FITS</span></div><h3>More than a list of classes.</h3><p>Explore distinct learning directions, then expand each<br class="desktop"> one into timetable variations.</p><div class="how-it-works"><div><span>01</span><strong>Find the possibilities</strong><small>Search across relevant disciplines.</small></div><div><span>02</span><strong>Check what fits</strong><small>Prerequisites, credits and time.</small></div><div><span>03</span><strong>Make it yours</strong><small>Compare families and variants.</small></div></div></section>
+      <section id="activity" class="panel activity" hidden><div class="panel-heading"><h3>Agent activity</h3><button class="text-button" id="cancel" type="button">Cancel run</button></div><p class="help">Tool decisions and results, including why the search expands.</p><ol id="events" aria-live="polite"></ol></section>
+      <div id="results" hidden>
+        <div id="coverage" class="coverage"></div><div id="family-list" class="family-list"></div>
+        <section class="panel plan-detail"><div class="panel-heading"><div><p class="eyebrow">ONE DIRECTION, A FEW WAYS TO GET THERE</p><h3 id="family-title"></h3></div><button id="export" class="button secondary small" type="button">Export plan ↓</button></div><p class="help" id="family-core">Variants preserve your core and change sections or one elective.</p><div id="variant-list" class="variant-list"></div>
+          <p id="variant-comparison" class="help"></p><div class="schedule-heading"><h4>Your week at a glance</h4><select id="week-select" aria-label="Schedule week"></select></div><p class="help">America/New_York · A weekly view respects each section’s actual start and end dates.</p><div id="calendar" class="calendar"></div><div id="calendar-legend" class="legend"></div>
+          <div class="section-title"><h4>Why these courses?</h4><span class="pill">SOURCE-LINKED</span></div><div id="course-list"></div>
+        </section>
+        <details class="panel audit"><summary>Search coverage, constraints & exclusions <span>＋</span></summary><div id="audit-content"></div></details>
+      </div>
+      <p class="footer-note">A planning companion, built on Cornell’s public roster.<br>Check enrollment restrictions and current seats with Cornell before registering.</p>
+    </section>
+  </div>
+</main>
+<footer><a class="brand small-brand" href="/">↗ Course Compass</a><span>CAREER INTENT → COURSE DISCOVERY → CONSTRAINT SOLVING</span></footer>
+</body></html>

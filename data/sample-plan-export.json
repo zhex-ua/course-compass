@@ -1,0 +1,460 @@
+{
+  "application": "Course Compass",
+  "roster": "SP27",
+  "data_mode": "Official Cornell snapshot + sample deterministic scoring (no LLM calls)",
+  "retrieved_at": "2026-11-23T04:33:40.633672+00:00",
+  "family": "Career focus",
+  "plan": {
+    "name": "Balanced timetable",
+    "courses": [
+      {
+        "code": "CS 2770",
+        "canonical": "366237",
+        "aliases": [
+          "AEM 2770",
+          "INFO 2770"
+        ],
+        "title": "Excursions in Computational Sustainability",
+        "description": "Balancing environmental, economic, and societal needs for a sustainable future encompasses problems of unprecedented size and complexity. Computing and information science can play an important role in addressing critical sustainability challenges faced by present and future generations. The goal of the course is to introduce students to a range of sustainability challenges and to computational methods that can help address such challenges. Sustainability topics include sustainable development, biodiversity and wildlife conservation, poverty mitigation, food security, renewable resources, energy, transportation, and climate change. In the context of these sustainability topics, the course will introduce students to mathematical and computational modeling techniques, algorithms, and statistical methods. The course is at the introductory undergraduate level. Students are expected to have basic knowledge of probability theory and calculus.",
+        "subject": "CS",
+        "career": "UG",
+        "source": "https://classes.cornell.edu/browse/roster/SP27/class/CS/2770",
+        "prereq_text": "",
+        "coreq_text": "",
+        "restriction_text": "",
+        "forbidden_text": "",
+        "notes": "For Bowers Computer and Information Science (CIS) Course Enrollment Help, please see: https://tdx.cornell.edu/TDClient/193/Portal/Home/",
+        "warnings": [],
+        "assessment": {
+          "code": "CS 2770",
+          "score": 96,
+          "foundation": 76,
+          "skills": [
+            "statistic",
+            "computing",
+            "algorithm",
+            "information",
+            "economic"
+          ],
+          "reason": "Sample data-analytics profile: statistic, computing, algorithm, information, economic.",
+          "evidence": "Excursions in Computational Sustainability",
+          "prerequisites": [],
+          "corequisites": [],
+          "requires_review": false,
+          "review_reason": ""
+        },
+        "assessment_error": "",
+        "bundle": {
+          "id": "0:7118",
+          "credits": 3,
+          "sections": [
+            {
+              "number": 7118,
+              "component": "LEC",
+              "label": "001",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "TR",
+                  "start": 805,
+                  "end": 880,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-05-11"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "code": "INFO 2950",
+        "canonical": "358808",
+        "aliases": [],
+        "title": "Introduction to Data Science",
+        "description": "INFO 2950 is an applied introductory course on the foundations of data science, focusing on using data to identify patterns, evaluating the strength and significance of relationships, and generating predictions using data. Topics covered include the core principles of statistical programming (such as data frames, Python/R packages, reproducible workflows, and version control), univariate and multivariate statistical analysis of small and medium-size datasets, regression methods, hypothesis testing, probability models, basic supervised and unsupervised machine learning, data visualization, and network analysis. Students will learn how to use data to make effective arguments in a way that promotes the ethical usage of data. Students who complete the course will be able to produce meaningful, data-driven analyses of real-world problems and will be prepared to begin more advanced work in data-intensive domains.",
+        "subject": "INFO",
+        "career": "UG",
+        "source": "https://classes.cornell.edu/browse/roster/SP27/class/INFO/2950",
+        "prereq_text": "MATH 1710 or equivalent; CS 1110 or CS 1112 or permission of instructor.",
+        "coreq_text": "",
+        "restriction_text": "",
+        "forbidden_text": "",
+        "notes": "\nFor Bowers Computer and Information Science (CIS) Course Enrollment Help, please see: https://tdx.cornell.edu/TDClient/193/Portal/Home/",
+        "warnings": [],
+        "assessment": {
+          "code": "INFO 2950",
+          "score": 96,
+          "foundation": 76,
+          "skills": [
+            "data",
+            "statistic",
+            "programming",
+            "python",
+            "ethic"
+          ],
+          "reason": "Sample data-analytics profile: data, statistic, programming, python, ethic.",
+          "evidence": "Introduction to Data Science",
+          "prerequisites": [
+            [
+              {
+                "code": "MATH 1710",
+                "min_grade": null
+              },
+              {
+                "code": "CS 1110",
+                "min_grade": null
+              }
+            ],
+            [
+              {
+                "code": "MATH 1710",
+                "min_grade": null
+              },
+              {
+                "code": "CS 1112",
+                "min_grade": null
+              }
+            ]
+          ],
+          "corequisites": [],
+          "requires_review": false,
+          "review_reason": ""
+        },
+        "assessment_error": "",
+        "bundle": {
+          "id": "0:9756-9758",
+          "credits": 4,
+          "sections": [
+            {
+              "number": 9756,
+              "component": "LEC",
+              "label": "001",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "TR",
+                  "start": 700,
+                  "end": 775,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-05-11"
+                }
+              ]
+            },
+            {
+              "number": 9758,
+              "component": "DIS",
+              "label": "202",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "F",
+                  "start": 610,
+                  "end": 660,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-05-11"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "code": "CS 2043",
+        "canonical": "364589",
+        "aliases": [],
+        "title": "UNIX Tools and Scripting",
+        "description": "UNIX and UNIX-like systems are increasingly being used on personal computers, mobile phones, web servers, and many other systems. They represent a wonderful family of programming environments useful both to computer scientists and to people in many other fields, such as computational biology and computational linguistics, in which data is naturally represented by strings. This course takes students from shell basics and piping, to regular-expression processing tools, to shell scripting and Python. Other topics to be covered include handling concurrent and remote resources, manipulating streams and files, and managing software installations.",
+        "subject": "CS",
+        "career": "UG",
+        "source": "https://classes.cornell.edu/browse/roster/SP27/class/CS/2043",
+        "prereq_text": "CS 1110 or CS 1112 or equivalent.",
+        "coreq_text": "",
+        "restriction_text": "",
+        "forbidden_text": "",
+        "notes": "For Bowers Computer and Information Science (CIS) Course Enrollment Help, please see: https://tdx.cornell.edu/TDClient/193/Portal/Home/",
+        "warnings": [],
+        "assessment": {
+          "code": "CS 2043",
+          "score": 93,
+          "foundation": 76,
+          "skills": [
+            "data",
+            "programming",
+            "python",
+            "web"
+          ],
+          "reason": "Sample data-analytics profile: data, programming, python, web.",
+          "evidence": "UNIX Tools and Scripting",
+          "prerequisites": [
+            [
+              {
+                "code": "CS 1110",
+                "min_grade": null
+              }
+            ],
+            [
+              {
+                "code": "CS 1112",
+                "min_grade": null
+              }
+            ]
+          ],
+          "corequisites": [],
+          "requires_review": false,
+          "review_reason": ""
+        },
+        "assessment_error": "",
+        "bundle": {
+          "id": "0:7098",
+          "credits": 1.5,
+          "sections": [
+            {
+              "number": 7098,
+              "component": "LEC",
+              "label": "001",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "MWF",
+                  "start": 740,
+                  "end": 790,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-03-16"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "code": "CS 2110",
+        "canonical": "358546",
+        "aliases": [
+          "ENGRD 2110"
+        ],
+        "title": "Object-Oriented Programming and Data Structures",
+        "description": "Intermediate programming in a high-level language and introduction to software engineering. Topics include object-oriented programming (objects, classes, subtypes, encapsulation, polymorphism), program correctness (specifications, invariants, testing), algorithm analysis (asymptotic complexity, big O notation), recursion, data structures (lists, trees, stacks, queues, heaps, hash tables, graphs), iteration and searching/sorting, graph algorithms, and concurrent and event-driven programming (graphical user interfaces, synchronization). Java is the principal programming language.",
+        "subject": "CS",
+        "career": "UG",
+        "source": "https://classes.cornell.edu/browse/roster/SP27/class/CS/2110",
+        "prereq_text": "CS 1110 or CS 1112 or equivalent.",
+        "coreq_text": "",
+        "restriction_text": "",
+        "forbidden_text": "",
+        "notes": "\nFor Bowers Computer and Information Science (CIS) Course Enrollment Help, please see: https://tdx.cornell.edu/TDClient/193/Portal/Home/",
+        "warnings": [],
+        "assessment": {
+          "code": "CS 2110",
+          "score": 76,
+          "foundation": 76,
+          "skills": [
+            "data",
+            "programming",
+            "algorithm"
+          ],
+          "reason": "Sample data-analytics profile: data, programming, algorithm.",
+          "evidence": "Object-Oriented Programming and Data Structures",
+          "prerequisites": [
+            [
+              {
+                "code": "CS 1110",
+                "min_grade": null
+              }
+            ],
+            [
+              {
+                "code": "CS 1112",
+                "min_grade": null
+              }
+            ]
+          ],
+          "corequisites": [],
+          "requires_review": false,
+          "review_reason": ""
+        },
+        "assessment_error": "",
+        "bundle": {
+          "id": "0:6582-6594",
+          "credits": 4,
+          "sections": [
+            {
+              "number": 6582,
+              "component": "LEC",
+              "label": "001",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "TR",
+                  "start": 610,
+                  "end": 685,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-05-11"
+                }
+              ]
+            },
+            {
+              "number": 6594,
+              "component": "DIS",
+              "label": "212",
+              "status": "O",
+              "meetings": [
+                {
+                  "days": "W",
+                  "start": 610,
+                  "end": 685,
+                  "date_start": "2027-01-25",
+                  "date_end": "2027-05-11"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "credits": 12.5,
+    "quality": 361,
+    "match": 90,
+    "days": 5,
+    "earliest": 610,
+    "status": "OPTIMAL",
+    "objective": "career",
+    "objective_value": 36094800,
+    "best_bound": 36094800
+  },
+  "warnings": [
+    "Eligibility uses documented rules and a reviewed transcript. Blank rules, linked registration restrictions, seat changes, and degree requirements still need official verification."
+  ],
+  "trace": [
+    {
+      "type": "event",
+      "stage": "planning",
+      "message": "Planning the search",
+      "data": {
+        "round": 1
+      }
+    },
+    {
+      "type": "event",
+      "stage": "decision",
+      "message": "Offline sample profile across five real Cornell subjects; deterministic demo scoring.",
+      "data": {
+        "subjects": [
+          "COMM",
+          "CS",
+          "ECON",
+          "INFO",
+          "STSCI"
+        ],
+        "keywords": [
+          "data",
+          "programming",
+          "design",
+          "statistics"
+        ]
+      }
+    },
+    {
+      "type": "event",
+      "stage": "retrieval",
+      "message": "Read 36 COMM offerings",
+      "data": {
+        "subject": "COMM",
+        "count": 36,
+        "source": "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP27&subject=COMM"
+      }
+    },
+    {
+      "type": "event",
+      "stage": "retrieval",
+      "message": "Read 98 CS offerings",
+      "data": {
+        "subject": "CS",
+        "count": 98,
+        "source": "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP27&subject=CS"
+      }
+    },
+    {
+      "type": "event",
+      "stage": "retrieval",
+      "message": "Read 55 ECON offerings",
+      "data": {
+        "subject": "ECON",
+        "count": 55,
+        "source": "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP27&subject=ECON"
+      }
+    },
+    {
+      "type": "event",
+      "stage": "retrieval",
+      "message": "Read 72 INFO offerings",
+      "data": {
+        "subject": "INFO",
+        "count": 72,
+        "source": "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP27&subject=INFO"
+      }
+    },
+    {
+      "type": "event",
+      "stage": "retrieval",
+      "message": "Read 47 STSCI offerings",
+      "data": {
+        "subject": "STSCI",
+        "count": 47,
+        "source": "https://classes.cornell.edu/api/2.0/search/classes.json?roster=SP27&subject=STSCI"
+      }
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 12 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 24 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 36 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 48 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 60 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "scoring",
+      "message": "Assessed 65 / 65 schedulable courses in this round",
+      "data": {}
+    },
+    {
+      "type": "event",
+      "stage": "optimization",
+      "message": "Solving credits, prerequisites, corequisites and section conflicts",
+      "data": {
+        "courses": 308
+      }
+    },
+    {
+      "type": "event",
+      "stage": "solver_result",
+      "message": "Found 3 plan families",
+      "data": {
+        "status": "OPTIMAL",
+        "eligible": 14
+      }
+    }
+  ]
+}

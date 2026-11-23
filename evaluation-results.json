@@ -1,0 +1,126 @@
+{
+  "mode": "Real Cornell SP27 snapshot; deterministic sample scoring; no OpenAI calls",
+  "record_count": 308,
+  "snapshot_timestamp": "2026-11-23T04:33:40.633672+00:00",
+  "scenarios": [
+    {
+      "scenario": "baseline",
+      "expected_feasible": true,
+      "returned_feasible": true,
+      "expectation_met": true,
+      "status": "OPTIMAL",
+      "families": 3,
+      "variants": 5,
+      "eligible_courses": 14,
+      "seconds": 0.033,
+      "credits": [
+        12.5,
+        13.0,
+        12.0,
+        12.0,
+        14.0
+      ],
+      "course_sets": [
+        [
+          "CS 2770",
+          "INFO 2950",
+          "CS 2043",
+          "CS 2110"
+        ],
+        [
+          "CS 1340",
+          "CS 2770",
+          "CS 2110",
+          "ECON 1120"
+        ],
+        [
+          "CS 1340",
+          "CS 2770",
+          "CS 2110",
+          "STSCI 4981"
+        ],
+        [
+          "CS 2770",
+          "INFO 2950",
+          "COMM 3560",
+          "STSCI 4981"
+        ],
+        [
+          "CS 2770",
+          "INFO 2950",
+          "CS 2110",
+          "COMM 3560"
+        ]
+      ]
+    },
+    {
+      "scenario": "without_programming_prerequisite",
+      "expected_feasible": true,
+      "returned_feasible": true,
+      "expectation_met": true,
+      "status": "OPTIMAL",
+      "families": 2,
+      "variants": 4,
+      "eligible_courses": 11,
+      "seconds": 0.022,
+      "credits": [
+        13.0,
+        13.0,
+        13.0,
+        13.0
+      ],
+      "course_sets": [
+        [
+          "CS 1110",
+          "CS 1340",
+          "CS 2770",
+          "COMM 3200"
+        ],
+        [
+          "CS 1110",
+          "CS 1340",
+          "CS 2770",
+          "ECON 1120"
+        ],
+        [
+          "CS 1110",
+          "CS 2770",
+          "COMM 3560",
+          "ECON 1120"
+        ],
+        [
+          "CS 1110",
+          "CS 2770",
+          "COMM 3560",
+          "COMM 3200"
+        ]
+      ]
+    },
+    {
+      "scenario": "impossible_credit_load",
+      "expected_feasible": false,
+      "returned_feasible": false,
+      "expectation_met": true,
+      "status": "INFEASIBLE",
+      "families": 0,
+      "variants": 0,
+      "eligible_courses": 14,
+      "seconds": 0.015,
+      "credits": [],
+      "course_sets": []
+    },
+    {
+      "scenario": "all_weekdays_blocked",
+      "expected_feasible": false,
+      "returned_feasible": false,
+      "expectation_met": true,
+      "status": "INSUFFICIENT_ELIGIBLE_COURSES",
+      "families": 0,
+      "variants": 0,
+      "eligible_courses": 0,
+      "seconds": 0.011,
+      "credits": [],
+      "course_sets": []
+    }
+  ]
+}
