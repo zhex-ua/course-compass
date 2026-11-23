@@ -3,6 +3,7 @@ import asyncio
 import json
 import re
 from datetime import datetime, timezone
+from time import perf_counter
 
 from openai import AsyncOpenAI
 from .catalog import demo_catalog, normalize
@@ -130,6 +131,8 @@ def attach_assessments(courses, assessments):
 
 
 async def run_agent(req, catalog, emit, brain=None):
+    pipeline_started = perf_counter()
+    optimizer_ms = 0.0
     demo = demo_catalog() if req.demo else None
     available = demo["subjects"] if demo else await catalog.subjects(req.roster)
     valid_subjects = {s["value"] for s in available}
@@ -186,7 +189,9 @@ async def run_agent(req, catalog, emit, brain=None):
                 for c in additions:
                     all_courses[c.code] = c
         await emit("optimization", "Solving credits, prerequisites, corequisites and section conflicts", {"courses": len(all_courses)})
+        optimization_started = perf_counter()
         result = await asyncio.to_thread(optimize, list(all_courses.values()), req, 35 if iteration == 0 else 20)
+        optimizer_ms += (perf_counter() - optimization_started) * 1000
         await emit("solver_result", f"Found {len(result['families'])} plan families", {"status": result["status"], "eligible": result["eligible_count"]})
         if len(result["families"]) >= 3 or req.demo or iteration == 1:
             break
@@ -196,6 +201,8 @@ async def run_agent(req, catalog, emit, brain=None):
         warnings.append("The bounded search found fewer than three distinct families. Change credits, time windows, completed courses, or subject hints to explore further.")
     warnings.append("Eligibility uses documented rules and a reviewed transcript. Blank rules, linked registration restrictions, seat changes, and degree requirements still need official verification.")
     return {**result, "roster": req.roster, "demo": req.demo, "retrieved_subjects": retrieved, "raw_count": raw_count,
+            "timings_ms": {"pipeline": round((perf_counter() - pipeline_started) * 1000, 2),
+                           "optimizer": round(optimizer_ms, 2)},
             "assessed_count": sum(c.assessment is not None for c in all_courses.values()), "warnings": warnings,
             "retrieved_at": demo["retrieved_at"] if demo else datetime.now(timezone.utc).isoformat(),
             "usage": brain.usage if brain else {"calls": 0, "input_tokens": 0, "output_tokens": 0},

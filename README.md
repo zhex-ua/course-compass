@@ -83,6 +83,14 @@ Tests exercise prerequisites versus concurrent enrollment, grade minima, AND/OR 
 
 For a classroom evaluation, run 5–10 career profiles with a key and compare: valid-plan rate, documented constraint violations, relevance rated by two reviewers, subject coverage, family distance, latency, token usage, and baseline top-score recommendations without optimization. Report observed results rather than treating mock tests as model-quality evidence.
 
+To measure a deployed instance without OpenAI charges:
+
+```bash
+.venv/bin/python benchmark.py https://your-service.onrender.com --output benchmark-results.json
+```
+
+The benchmark records the first health request separately, five page loads, live and cached roster requests, and five demo runs. End-to-end timings include network latency. Server timings separate the complete pipeline from Python model construction and optimization. The first request is only a cold-start measurement if the service was independently confirmed to be asleep; a fresh deployment alone does not establish this.
+
 ## Deploy one Python service
 
 Use the included `render.yaml` as a Render Blueprint, or create a Render Python Web Service from this folder as repository root:
