@@ -1,0 +1,137 @@
+{
+  "base_url": "https://course-compass-wmw7.onrender.com",
+  "measured_at_utc": "2026-11-23T05:49:35.723413+00:00",
+  "profile": "Synthetic data-analytics profile + official Cornell snapshot",
+  "mode": "No OpenAI calls; serial requests from the test computer; includes network latency",
+  "first_request_context": "Render dashboard confirmed a successful initial deployment; instance already running. This is not an idle cold-start test.",
+  "first_health_request": {
+    "path": "/api/health",
+    "status": 200,
+    "total_ms": 267.35,
+    "bytes": 15
+  },
+  "page_samples": [
+    {
+      "path": "/",
+      "status": 200,
+      "total_ms": 71.09,
+      "bytes": 9471
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "total_ms": 70.78,
+      "bytes": 9471
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "total_ms": 69.06,
+      "bytes": 9471
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "total_ms": 84.41,
+      "bytes": 9471
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "total_ms": 94.4,
+      "bytes": 9471
+    }
+  ],
+  "rosters_first": {
+    "path": "/api/rosters",
+    "status": 200,
+    "total_ms": 1038.64,
+    "bytes": 34990,
+    "cornell_live": true
+  },
+  "rosters_cached": {
+    "path": "/api/rosters",
+    "status": 200,
+    "total_ms": 80.06,
+    "bytes": 34990
+  },
+  "demo_samples": [
+    {
+      "total_ms": 756.49,
+      "first_event_ms": 412.76,
+      "server_timings_ms": {
+        "pipeline": 596.93,
+        "optimizer": 300.65
+      },
+      "families": 3,
+      "variants": 5,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "total_ms": 1204.89,
+      "first_event_ms": 408.95,
+      "server_timings_ms": {
+        "pipeline": 1043.38,
+        "optimizer": 802.69
+      },
+      "families": 3,
+      "variants": 5,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "total_ms": 741.01,
+      "first_event_ms": 418.12,
+      "server_timings_ms": {
+        "pipeline": 550.92,
+        "optimizer": 205.65
+      },
+      "families": 3,
+      "variants": 5,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "total_ms": 665.73,
+      "first_event_ms": 275.17,
+      "server_timings_ms": {
+        "pipeline": 435.91,
+        "optimizer": 288.88
+      },
+      "families": 3,
+      "variants": 5,
+      "solver_status": "OPTIMAL"
+    },
+    {
+      "total_ms": 564.63,
+      "first_event_ms": 203.33,
+      "server_timings_ms": {
+        "pipeline": 330.35,
+        "optimizer": 205.99
+      },
+      "families": 3,
+      "variants": 5,
+      "solver_status": "OPTIMAL"
+    }
+  ],
+  "summary_ms": {
+    "page_samples": {
+      "median": 71.09,
+      "min": 69.06,
+      "max": 94.4
+    },
+    "demo_samples": {
+      "median": 741.01,
+      "min": 564.63,
+      "max": 1204.89
+    },
+    "server_pipeline": {
+      "median": 550.92,
+      "min": 330.35,
+      "max": 1043.38
+    },
+    "server_optimizer": {
+      "median": 288.88,
+      "min": 205.65,
+      "max": 802.69
+    }
+  }
+}
