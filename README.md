@@ -2,6 +2,8 @@
 
 Career-driven Cornell course discovery and scheduling, with a Python optimizer and expandable plan families.
 
+**Live demo:** <https://course-compass-wmw7.onrender.com> · [Deployment performance](PERFORMANCE.md)
+
 This is a working full-stack web application. The frontend uses HTML, CSS, and JavaScript. FastAPI serves both the website and the Python API, so deployment requires only one service. OpenAI plans course searches, scores course relevance, and structures enrollment rules; OR-Tools CP-SAT checks constraints and generates feasible schedules.
 
 ## Run locally
@@ -20,11 +22,17 @@ python3 -m venv .venv
 .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8765 --no-access-log
 ```
 
-Click **Explore a demo** to use 308 actual Cornell Spring 2027 records from COMM, CS, ECON, INFO and STSCI. The sample transcript is fictional. Demo scoring is deterministic and intended to exercise the real optimizer and UI; it does not call an LLM. Other careers and disciplines use live mode.
+Click **View static example** to instantly explore a saved set of 3 plan families and 5 variants. This renders bundled results in the browser without API calls or solving. The [direct example link](https://course-compass-wmw7.onrender.com/?example=1) also skips the initial roster API request. Families, variants, dated calendars, course details and JSON export remain interactive. Loading the website itself still depends on the hosting service being awake.
+
+Click **Run solver demo** to run Python optimization against 308 actual Cornell Spring 2027 records from COMM, CS, ECON, INFO and STSCI. The sample transcript is fictional. Demo scoring is deterministic and intended to exercise the real optimizer and UI; it does not call an LLM. Other careers and disciplines use live mode.
+
+Regenerate the bundled example with `python build_example.py` after changing demo data or solver behavior. Its generation timestamp and static-example label are recorded in the result.
 
 For the live agent, enter your goal, choose a term and academic level, enter your OpenAI API key, review completed courses, then click **Find my course plans**. Manual entry needs no transcript extraction call. PDF/TXT/CSV extraction needs the key. Text-based PDFs are supported; scanned PDFs need OCR before upload.
 
 ## What the agent does
+
+Open **How it works** on the website for a built-in flowchart and an explanation of eligibility checks, CP-SAT decisions and constraints, family diversity, anchored variants, and the bounded feedback loop. This explanation is static and available without an API key.
 
 ```mermaid
 flowchart TD
@@ -89,7 +97,7 @@ To measure a deployed instance without OpenAI charges:
 .venv/bin/python benchmark.py https://your-service.onrender.com --output benchmark-results.json
 ```
 
-The benchmark records the first health request separately, five page loads, live and cached roster requests, and five demo runs. End-to-end timings include network latency. Server timings separate the complete pipeline from Python model construction and optimization. The first request is only a cold-start measurement if the service was independently confirmed to be asleep; a fresh deployment alone does not establish this.
+The benchmark records the first health request separately, five homepage HTML requests, live and cached roster requests, and five demo runs. End-to-end timings include network latency. HTML request timing does not measure full browser rendering. Server timings separate the complete pipeline from Python model construction and optimization. The first request is only a cold-start measurement if the service was independently confirmed to be asleep; a fresh deployment alone does not establish this.
 
 ## Deploy one Python service
 
@@ -100,7 +108,7 @@ Use the included `render.yaml` as a Render Blueprint, or create a Render Python 
 - Health: `/api/health`
 - Python: 3.12
 
-No shared OpenAI key is required in hosting environment variables: users bring their own. Render account/repository connection and final deployment have not been performed. A free service can sleep; warm it before presenting. The Dockerfile is an alternative for a Linux host supporting native Python wheels. Docker execution itself has not been verified here.
+The application is deployed from `zhex-ua/course-compass` on Render's Free plan in Oregon: 0.1 CPU, 512 MB RAM, Python 3.12.12. The GitHub integration is limited to this repository. No shared OpenAI key is configured: users bring their own. A free service can sleep; open the site before presenting. The Dockerfile is an alternative for a Linux host supporting native Python wheels. Docker execution itself has not been verified here.
 
 Run **one worker / one instance** to preserve Cornell's process-wide request spacing. Multi-instance deployment needs a shared rate limiter. Configure HTTPS at the hosting layer. No browser CORS bridge or separate frontend host is needed.
 

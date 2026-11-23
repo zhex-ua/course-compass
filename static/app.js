@@ -5,7 +5,7 @@ const time = m => `${String(Math.floor(m / 60)).padStart(2,'0')}:${String(m % 60
 const minutes = value => { const [h,m] = value.split(':').map(Number); return h*60+m; };
 const codes = value => value.split(/[,;\n]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
 const colors = [ ['#e3edda','#466a3a'], ['#e9e4f2','#79628b'], ['#f4e7d5','#9a7241'], ['#dae9ec','#477b85'], ['#f1dfe1','#9d6570'], ['#e5e7cc','#6e733f'] ];
-let controller = null, result = null, familyIndex = 0, variantIndex = 0, trace = [];
+let controller = null, result = null, familyIndex = 0, variantIndex = 0, trace = [], resultMode = 'live';
 
 function error(message) { $('form-error').textContent = message; $('form-error').hidden = !message; }
 function detailMessage(body) { return typeof body.detail === 'string' ? body.detail : (body.detail || []).map(e => `${e.field || ''}: ${e.message || e.msg}`).join('; '); }
@@ -38,6 +38,13 @@ function busy(value) {
 function appendEvent(event) {
   trace.push(event); const li=document.createElement('li');li.textContent=event.message;$('events').append(li);li.scrollIntoView({block:'nearest'});
 }
+function showDemoNotice(mode) {
+  $('demo-banner').hidden=mode==='live';
+  $('demo-heading').textContent=mode==='example'?'Static example · ready to explore':'Real courses. Sample intelligence.';
+  $('demo-description').textContent=mode==='example'
+    ? 'Saved plans for a sample data-analytics profile, generated from the Cornell Spring 2027 roster. Explore families, variants and weekly schedules instantly. This view makes no API calls and does not run the solver. Use Find my course plans to generate results for your inputs.'
+    : 'This demo uses a saved Cornell Spring 2027 roster and a fixed data-analytics scoring profile. The Python solver runs for real; there are no LLM calls.';
+}
 async function run(demo=false) {
   if (controller) return;
   error('');
@@ -46,7 +53,7 @@ async function run(demo=false) {
   if (!demo && !$('api-key').value.trim()) { $('api-section').open=true;error('Enter your OpenAI API key, or try the offline demo.');$('api-key').focus();return; }
   controller = new AbortController(); const signal=controller.signal; busy(true);
   $('empty-state').hidden=true;$('results').hidden=true;$('activity').hidden=false;$('events').replaceChildren();trace=[];
-  $('demo-banner').hidden=!demo;$('run-state').textContent='AGENT AT WORK';$('results-title').textContent='Finding your possibilities…';
+  resultMode=demo?'demo':'live';showDemoNotice(resultMode);$('run-state').textContent='AGENT AT WORK';$('results-title').textContent='Finding your possibilities…';
   try {
     const response=await fetch('/api/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(profile(demo)),signal});
     if(!response.ok) throw new Error(detailMessage(await response.json()) || `Request failed (${response.status}).`);
@@ -60,17 +67,27 @@ async function run(demo=false) {
     $('results-title').textContent='Let’s adjust the starting point.';
   } finally {controller=null;busy(false);}
 }
-function loadDemo() {
-  if(controller)return;
+function fillDemoProfile() {
   $('goal').value='I want to become a product or data analyst. Help me build skills in data science, programming, statistics, and human-centered digital products.';
   if(![...$('roster').options].some(o=>o.value==='SP27'))$('roster').add(new Option('Spring 2027','SP27'));
   $('roster').value='SP27';$('career').value='UG';$('campus').value='MAIN';$('min-credits').value=12;$('max-credits').value=16;$('course-count').value=4;
   $('earliest').value='09:00';$('latest').value='18:00';$('required').value='';$('subjects').value='';$('permissions').value='';$('blocked-rows').replaceChildren();
   $('transcript-rows').replaceChildren();[{code:'CS 1110',grade:'A',status:'completed'},{code:'MATH 1110',grade:'B+',status:'completed'},{code:'MATH 1710',grade:'A-',status:'completed'},{code:'ECON 1110',grade:'B',status:'completed'}].forEach(addCourse);
-  $('reviewed').checked=true;$('transcript-notes').textContent='Sample transcript for the demo profile. No personal student data.';run(true);
+  $('reviewed').checked=true;$('transcript-notes').textContent='Sample transcript for the demo profile. No personal student data.';
+}
+function loadDemo() {
+  if(controller)return;
+  fillDemoProfile();run(true);
+}
+function loadStaticExample() {
+  if(controller)return;
+  error('');fillDemoProfile();resultMode='example';
+  result=structuredClone(COURSE_COMPASS_EXAMPLE.result);trace=structuredClone(COURSE_COMPASS_EXAMPLE.trace);
+  $('empty-state').hidden=true;$('activity').hidden=true;$('events').replaceChildren();$('cancel').hidden=true;
+  showDemoNotice('example');renderResult();
 }
 function renderResult() {
-  familyIndex=0;variantIndex=0;$('results').hidden=false;$('run-state').textContent=result.families.length?'PLANS READY':'NO PLAN FOUND';
+  familyIndex=0;variantIndex=0;$('results').hidden=false;$('run-state').textContent=resultMode==='example'?'SAVED EXAMPLE':result.families.length?'PLANS READY':'NO PLAN FOUND';
   $('results-title').textContent=result.families.length?`${result.families.length} direction${result.families.length===1?'':'s'} to explore.`:'A constraint needs another look.';
   $('coverage').textContent=`${result.raw_count} offerings retrieved · ${result.retrieved_subjects.join(', ')} · ${result.assessed_count} assessed · ${result.eligible_count} in the solver pool`;
   $('family-list').innerHTML=result.families.map((family,i)=>{const v=family.variants[0];return `<button class="family-card${i===0?' selected':''}" data-family="${i}" aria-pressed="${i===0}"><div class="family-top"><span class="family-number">0${i+1}</span><span class="pill">${v.match} MATCH</span></div><h3>${escape(family.name)}</h3><p class="course-codes">${family.anchor_courses.map(escape).join(' · ')}</p><div class="family-meta">${v.credits} credits · ${v.days} campus days<br>${v.courses.length} courses · ${v.status==='OPTIMAL'?'Optimal for objective':'Feasible result'}</div><span class="variant-link">${family.variants.length} variant${family.variants.length===1?'':'s'} to explore ↗</span></button>`;}).join('');
@@ -122,11 +139,18 @@ async function uploadTranscript(){
   try{const response=await fetch('/api/transcript',{method:'POST',body:data});const body=await response.json();if(!response.ok)throw new Error(detailMessage(body));$('transcript-rows').replaceChildren();body.courses.forEach(addCourse);$('reviewed').checked=false;$('transcript-notes').textContent=['Review the extracted results before continuing.',...body.notes].join(' ');}catch(e){error(e.message);$('transcript-notes').textContent='Extraction did not finish. Your existing course entries have been kept.';}finally{busy(false);$('transcript-file').value='';}
 }
 $('planner-form').addEventListener('submit',e=>{e.preventDefault();run(false);});
-$('demo-button').addEventListener('click',loadDemo);$('demo-top').addEventListener('click',loadDemo);
+$('demo-button').addEventListener('click',loadDemo);$('demo-top').addEventListener('click',loadStaticExample);$('example-button').addEventListener('click',loadStaticExample);
 $('cancel').addEventListener('click',()=>controller?.abort());$('add-course').addEventListener('click',()=>addCourse());$('add-block').addEventListener('click',addBlock);
 $('transcript-file').addEventListener('change',uploadTranscript);
 $('family-list').addEventListener('click',e=>{const card=e.target.closest('[data-family]');if(card){familyIndex=Number(card.dataset.family);variantIndex=0;renderFamily();}});
 $('variant-list').addEventListener('click',e=>{const card=e.target.closest('[data-variant]');if(card){variantIndex=Number(card.dataset.variant);renderFamily();}});
 $('week-select').addEventListener('change',renderCalendar);
-$('export').addEventListener('click',()=>{const payload={application:'Course Compass',roster:result.roster,data_mode:result.data_mode,retrieved_at:result.retrieved_at,family:result.families[familyIndex].name,plan:currentPlan(),warnings:result.warnings,trace};const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=`course-compass-${result.roster}-plan.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
-fetch('/api/rosters').then(r=>r.json()).then(data=>{const prior=$('roster').value;const rows=data.rosters.map(r=>({value:r.slug||r.value,label:r.descr||r.description||r.slug||r.value})).filter(r=>/^(SP|FA|SU|WI)\d{2}$/.test(r.value));if(rows.length){$('roster').replaceChildren(...rows.map(r=>new Option(r.label,r.value)));if(rows.some(r=>r.value===prior))$('roster').value=prior;}}).catch(()=>{});
+$('export').addEventListener('click',()=>{const payload={application:'Course Compass',roster:result.roster,data_mode:result.data_mode,retrieved_at:result.retrieved_at,example_generated_at:result.example_generated_at,family:result.families[familyIndex].name,plan:currentPlan(),warnings:result.warnings,trace};const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=`course-compass-${result.roster}-plan.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+let rostersLoading=null;
+function loadRosters(){
+  if(rostersLoading)return rostersLoading;
+  rostersLoading=fetch('/api/rosters').then(r=>r.json()).then(data=>{const prior=$('roster').value;const rows=data.rosters.map(r=>({value:r.slug||r.value,label:r.descr||r.description||r.slug||r.value})).filter(r=>/^(SP|FA|SU|WI)\d{2}$/.test(r.value));if(rows.length){$('roster').replaceChildren(...rows.map(r=>new Option(r.label,r.value)));if(rows.some(r=>r.value===prior))$('roster').value=prior;}}).catch(()=>{rostersLoading=null;});
+  return rostersLoading;
+}
+$('roster').addEventListener('focus',loadRosters);
+if(new URLSearchParams(location.search).get('example')==='1')loadStaticExample();else loadRosters();

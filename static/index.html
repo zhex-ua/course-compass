@@ -4,12 +4,42 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Course Compass · A semester with direction</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%231a5146'/%3E%3Cpath d='M27 12L23 24L12 28L16 16Z' fill='%23eee8d8'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="/static/styles.css"><script src="/static/app.js" defer></script>
+  <link rel="stylesheet" href="/static/styles.css"><script src="/static/example.js" defer></script><script src="/static/app.js" defer></script>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="/" aria-label="Course Compass home"><span class="logo">↗</span> Course Compass<span class="beta">LAB</span></a><div class="header-actions"><span class="school"><i></i> Cornell University</span><button class="button secondary small" id="demo-top">Explore a demo <span>↗</span></button></div></header>
+<header class="topbar"><a class="brand" href="/" aria-label="Course Compass home"><span class="logo">↗</span> Course Compass<span class="beta">LAB</span></a><div class="header-actions"><span class="school"><i></i> Cornell University</span><button class="button secondary small" id="demo-top">View static example</button></div></header>
 <main>
   <section class="intro"><div><p class="eyebrow">A LITTLE LESS GUESSWORK. A LOT MORE DIRECTION.</p><h1>Your next semester,<br><em>with a direction.</em></h1><p class="lede">Turn your career goals and completed courses into a schedule<br class="desktop"> that fits. Compare directions. Find your version.</p></div><div class="intro-note"><span class="orbit">✳</span><p>Built around <strong>your goals.</strong><br>Grounded in real courses.<br>Checked by a Python optimizer.</p></div></section>
+  <details class="workflow panel" id="how-it-works">
+    <summary><span><strong>How it works</strong><small>The agent workflow & scheduling algorithm</small></span><span class="workflow-expand" aria-hidden="true">＋</span></summary>
+    <div class="workflow-content">
+      <div class="workflow-intro"><h2>From career intent to a feasible semester.</h2><p>The LLM decides what to search and interprets course content. Python checks eligibility and solves the scheduling problem.</p></div>
+      <div class="workflow-layout">
+        <div>
+          <h3 class="workflow-label">THE AGENT WORKFLOW</h3>
+          <ol class="workflow-flow" aria-label="Agent workflow">
+            <li class="flow-node"><span class="flow-type">YOUR INPUT</span><h4>Goal, transcript & preferences</h4><p>Choose a term, credits and availability. Review completed courses and grades after optional LLM transcript extraction.</p></li>
+            <li class="flow-node flow-llm"><span class="flow-type">LLM · SEARCH PLANNING</span><h4>Choose disciplines & keywords</h4><p>Turn the career goal into relevant Cornell subjects and concepts to look for.</p></li>
+            <li class="flow-node"><span class="flow-type">TOOL · CORNELL API</span><h4>Retrieve full subject offerings</h4><p>Query the selected term and subjects. Keywords guide scoring; retrieval covers the full response for each chosen subject.</p></li>
+            <li class="flow-node flow-python"><span class="flow-type">PYTHON · PREPARATION</span><h4>Build schedulable course options</h4><p>Match campus and academic level; bundle required lectures, discussions and labs. Filter unusable sections.</p></li>
+            <li class="flow-node flow-llm"><span class="flow-type">LLM · COURSE ASSESSMENT</span><h4>Score relevance & structure rules</h4><p>Assess every schedulable candidate in batches. Extract source-backed prerequisites, corequisites and restrictions.</p></li>
+            <li class="flow-node flow-python"><span class="flow-type">PYTHON · ELIGIBILITY + CP-SAT</span><h4>Check requirements & optimize</h4><p>Exclude low-fit or unverified choices, preserve corequisites, then solve course selection and section conflicts.</p></li>
+            <li class="flow-node"><span class="flow-type">YOUR OPTIONS</span><h4>Compare families & variants</h4><p>Explore different learning directions, timetable alternatives, course evidence and an exportable weekly plan.</p></li>
+          </ol>
+          <div class="workflow-loop"><span aria-hidden="true">↶</span><p><strong>Fewer than 3 families?</strong> Feed solver status and exclusions back to the LLM. Return to search planning for one more round with additional subjects.</p></div>
+        </div>
+        <div class="algorithm-notes">
+          <h3 class="workflow-label">INSIDE THE SCHEDULING ALGORITHM</h3>
+          <article><h4>A constraint satisfaction model</h4><p>OR-Tools CP-SAT uses yes/no decisions for each course and its section bundle. A selected course must have exactly one complete bundle.</p><div class="algorithm-formula">Select a course = select one valid section bundle</div></article>
+          <article><h4>Hard constraints: every plan must fit</h4><ul><li>Course count, credit range and must-take courses.</li><li>Completed prerequisites and any minimum grades; explicit corequisites can be taken together.</li><li>Available times and conflicts checked by weekday <em>and</em> actual section dates.</li><li>Required class components, cross-listing duplicates and published forbidden course overlaps.</li></ul></article>
+          <article><h4>Different objectives create different families</h4><p>The first plan prioritizes career relevance, then fewer campus days and less early class time. Other anchors emphasize foundations or subject breadth.</p><div class="algorithm-formula">Quality ≥ 85% of the best-found career score<br>For a 4-course plan: replace at least 2 courses between families</div></article>
+          <article><h4>Variants stay close to their family</h4><p>Keep the highest-priority <em>n − 1</em> courses as a shared core. Change sections or at most one elective. Collapse identical timetables and duplicate course sets.</p><div class="algorithm-formula">Same core + section changes / one elective swap</div></article>
+          <article><h4>A bounded, inspectable search</h4><p>Up to 45 eligible courses and 80 bundles per course enter the model. Each objective gets 4 seconds; the agent can search at most twice. Results expose coverage, exclusions and solver status.</p><p>“Optimal” applies to the stated objective and candidate pool. Source ambiguities go to review; the university confirms final enrollment eligibility.</p></article>
+        </div>
+      </div>
+      <div class="workflow-modes"><div><strong>Static example</strong><p>Explore saved plans entirely in the browser.</p></div><div><strong>Solver demo</strong><p>Run Python on a real roster snapshot with fixed sample scores.</p></div><div><strong>Live agent</strong><p>Use your OpenAI key for search planning, scoring and rule extraction.</p></div></div>
+    </div>
+  </details>
   <div class="workspace">
     <aside class="profile panel">
       <div class="panel-heading"><h2>Your starting point</h2><span class="pill">01 / INPUT</span></div>
@@ -39,13 +69,14 @@
         </details>
         <p id="form-error" class="error" role="alert" hidden></p>
         <button class="button primary full" id="generate" type="submit">Find my course plans <span>→</span></button>
-        <button class="text-button full demo-link" id="demo-button" type="button">Try the offline demo · no key needed</button>
+        <button class="button secondary full demo-link" id="example-button" type="button">View static example <span>Instant</span></button>
+        <button class="text-button full demo-link" id="demo-button" type="button">Run solver demo · no key needed</button>
         <p class="privacy-note">Same-school planning · No account needed<br>Transcript and key are not saved by this app.</p>
       </form>
     </aside>
     <section class="results-column" aria-label="Course recommendations">
       <div class="results-header"><div><p class="eyebrow">YOUR POSSIBILITIES</p><h2 id="results-title">A direction, then the details.</h2></div><span class="pill" id="run-state">READY WHEN YOU ARE</span></div>
-      <div id="demo-banner" class="notice" hidden><strong>Real courses. Sample intelligence.</strong> This demo uses a saved Cornell Spring 2027 roster and a fixed data-analytics scoring profile. The Python solver runs for real; there are no LLM calls.</div>
+      <div id="demo-banner" class="notice" hidden><strong id="demo-heading"></strong><span id="demo-description"></span></div>
       <section id="empty-state" class="empty-state panel"><div class="compass-art" aria-hidden="true"><div class="ring outer"></div><div class="ring inner"></div><span class="north">N</span><div class="needle"></div><span class="art-tag one">YOUR GOALS</span><span class="art-tag two">REAL COURSES</span><span class="art-tag three">A PLAN THAT FITS</span></div><h3>More than a list of classes.</h3><p>Explore distinct learning directions, then expand each<br class="desktop"> one into timetable variations.</p><div class="how-it-works"><div><span>01</span><strong>Find the possibilities</strong><small>Search across relevant disciplines.</small></div><div><span>02</span><strong>Check what fits</strong><small>Prerequisites, credits and time.</small></div><div><span>03</span><strong>Make it yours</strong><small>Compare families and variants.</small></div></div></section>
       <section id="activity" class="panel activity" hidden><div class="panel-heading"><h3>Agent activity</h3><button class="text-button" id="cancel" type="button">Cancel run</button></div><p class="help">Tool decisions and results, including why the search expands.</p><ol id="events" aria-live="polite"></ol></section>
       <div id="results" hidden>
